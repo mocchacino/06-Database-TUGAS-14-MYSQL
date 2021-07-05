@@ -1,0 +1,12 @@
+delimiter $$
+create trigger after_nilai_mahasiswa_insert
+after insert on nilai_mahasiswa
+for each row
+begin
+declare nama_dan_nip VARCHAR(100);
+declare nilai_ipk DECIMAL(10,2);
+SET nama_dan_nip = CONCAT(UPPER(NEW.nama),'(',NEW.nim,')'),
+nilai_ipk = ROUND((NEW.semester_1 + NEW.semester_2 + NEW.semester_3)/3);
+INSERT INTO ipk_mahasiswa VALUES (nama_dan_nip, nilai_ipk);
+END$$
+DELIMITER ;
